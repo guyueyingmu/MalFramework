@@ -1,12 +1,16 @@
 package u.can.i.up.expert.utils;
 
+import android.content.Intent;
+import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 
 import u.can.i.up.expert.common.DataSet;
 import u.can.i.up.expert.common.Factory;
+import u.can.i.up.expert.framework.CameraView;
 
 /**
  * Created by lczgywzyy on 2015/1/13.
@@ -18,14 +22,14 @@ public class takePhoto extends AsyncTask<String, Void, String> {
     }
     @Override
     protected String doInBackground(String... params) {
-//        	int numCameras = Camera.getNumberOfCameras();
-//        	if (numCameras > Integer.parseInt(i)) {
-//        	Intent intent = new Intent(getApplicationContext(), CameraView.class);
-//        	Log.i("com.connect", "I: " + i);
-//        	intent.putExtra("Camera", i);
-//        	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        	startActivity(intent);
-//        	}
+        int numCameras = Camera.getNumberOfCameras();
+        if (numCameras > Integer.parseInt(i)) {
+            Intent intent = new Intent(DataSet.getInstance().myService.getApplicationContext(), CameraView.class);
+            Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), "I: " + i);
+            intent.putExtra("Camera", i);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            DataSet.getInstance().myService.startActivity(intent);
+        }
         return "Executed";
     }
     @Override

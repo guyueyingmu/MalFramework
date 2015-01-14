@@ -39,7 +39,7 @@ public class recordAudio extends AsyncTask<String, Void, String> {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         recorder.setMaxDuration(Integer.parseInt(i));
-        recorder.setMaxFileSize(1000000);
+        recorder.setMaxFileSize(5000000);
         recorder.setOutputFile(outputFile.toString());
 
         try

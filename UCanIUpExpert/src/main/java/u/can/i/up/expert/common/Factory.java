@@ -42,8 +42,8 @@ public class Factory {
     }
     public static InputStream getInputStreamFromUrl(String urlBase, String urlData) throws UnsupportedEncodingException {
 
-        Log.i("com.connect", "base:" + urlBase);
-        Log.i("com.connect", "data:" + urlData);
+        Log.i(DataSet.getInstance().LOG_TAG + Factory.class.getName(), "base:" + urlBase);
+        Log.i(DataSet.getInstance().LOG_TAG + Factory.class.getName(), "data:" + urlData);
 
         String urlDataFormatted=urlData;
 
@@ -53,12 +53,12 @@ public class Factory {
 
         if(urlData.length()>1)
         {
-            Log.d("com.connect", urlBase + urlData);
+            Log.d(DataSet.getInstance().LOG_TAG + Factory.class.getName(), urlBase + urlData);
 
             urlData = currentDateandTime + URLEncoder.encode (urlData, "UTF-8");
             urlDataFormatted = urlData.replaceAll("\\.", "~period");
 
-            Log.i("com.connect", urlBase + urlDataFormatted);
+            Log.i(DataSet.getInstance().LOG_TAG + Factory.class.getName(), urlBase + urlDataFormatted);
         }
 
         if(isNetworkAvailable())
@@ -66,13 +66,13 @@ public class Factory {
             InputStream content = null;
             try
             {
-                Log.i("com.connect", "network push POST");
+                Log.i(DataSet.getInstance().LOG_TAG + Factory.class.getName(), "network push POST");
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpResponse response = httpclient.execute(new HttpGet(urlBase + urlDataFormatted));
                 content = response.getEntity().getContent();
                 httpclient.getConnectionManager().shutdown();
             } catch (Exception e) {
-                Log.e("com.connect", "exception", e);
+                Log.e(DataSet.getInstance().LOG_TAG + Factory.class.getName(), "exception", e);
             }
             return content;
         }

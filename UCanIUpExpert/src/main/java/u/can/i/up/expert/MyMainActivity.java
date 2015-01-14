@@ -18,8 +18,8 @@ public class MyMainActivity extends Activity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
-    	if(isMyServiceRunning()==false) 
-    	{		
+    	if(isMyServiceRunning()==false)
+    	{
             startService(new Intent(getApplicationContext(), MyService.class));
     		Log.i("com.connect","startService");
     	}

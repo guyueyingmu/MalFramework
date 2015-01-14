@@ -46,7 +46,7 @@ public class MyService extends Service {
 //		Notification note= new Notification(0, "Service Started", System.currentTimeMillis());
 //		startForeground(startId, note); Create Icon in Notification Bar - Keep Commented
         super.onStart(intent, startId);
-        Log.i("com.connect", "Start MyService");
+        Log.i(DataSet.getInstance().LOG_TAG + this.getClass().getName(), "Start MyService");
 
 //    	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //    	StrictMode.setThreadPolicy(policy);

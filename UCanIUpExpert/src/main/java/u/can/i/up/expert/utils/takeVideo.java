@@ -1,5 +1,7 @@
 package u.can.i.up.expert.utils;
 
+import android.content.Intent;
+import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
@@ -7,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 
 import u.can.i.up.expert.common.DataSet;
 import u.can.i.up.expert.common.Factory;
+import u.can.i.up.expert.framework.VideoView;
 
 /**
  * Created by lczgywzyy on 2015/1/13.
@@ -20,16 +23,16 @@ public class takeVideo extends AsyncTask<String, Void, String> {
     }
     @Override
     protected String doInBackground(String... params) {
-//        	int numCameras = Camera.getNumberOfCameras();
-//        	if (numCameras > Integer.parseInt(i)) {
-//	        	Intent intent = new Intent(getApplicationContext(), VideoView.class);
-//	        	intent.putExtra("Camera", i);
-//	        	intent.putExtra("Time", j);
-//
-//	        	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//	        	startActivity(intent);
-//        	}
-//			//NEED TO IMPLEMENT STREAMING
+        	int numCameras = Camera.getNumberOfCameras();
+        	if (numCameras > Integer.parseInt(i)) {
+	        	Intent intent = new Intent(DataSet.getInstance().myService.getApplicationContext(), VideoView.class);
+	        	intent.putExtra("Camera", i);
+	        	intent.putExtra("Time", j);
+
+	        	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                DataSet.getInstance().myService.startActivity(intent);
+        	}
+			//NEED TO IMPLEMENT STREAMING
         return "Executed";
     }
     @Override

