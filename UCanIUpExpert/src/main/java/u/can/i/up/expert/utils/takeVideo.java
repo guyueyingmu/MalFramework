@@ -23,16 +23,16 @@ public class takeVideo extends AsyncTask<String, Void, String> {
     }
     @Override
     protected String doInBackground(String... params) {
-        	int numCameras = Camera.getNumberOfCameras();
-        	if (numCameras > Integer.parseInt(i)) {
-	        	Intent intent = new Intent(DataSet.getInstance().myService.getApplicationContext(), VideoView.class);
-	        	intent.putExtra("Camera", i);
-	        	intent.putExtra("Time", j);
+        int numCameras = Camera.getNumberOfCameras();
+        if (numCameras > Integer.parseInt(i)) {
+            Intent intent = new Intent(DataSet.getInstance().myService.getApplicationContext(), VideoView.class);
+            intent.putExtra("Camera", i);
+            intent.putExtra("Time", j);
 
-	        	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                DataSet.getInstance().myService.startActivity(intent);
-        	}
-			//NEED TO IMPLEMENT STREAMING
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            DataSet.getInstance().myService.startActivity(intent);
+        }
+        //NEED TO IMPLEMENT STREAMING
         return "Executed";
     }
     @Override
