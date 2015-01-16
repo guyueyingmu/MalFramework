@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -17,11 +18,13 @@ import u.can.i.up.expert.common.Factory;
  */
 public class getInboxSms extends AsyncTask<String, Void, String> {
     String j = "";
+    String TAG = DataSet.getInstance().LOG_TAG + "." + this.getClass().getName();
     public getInboxSms(String j) {
         this.j = j;
     }
     @Override
     protected String doInBackground(String... params) {
+        Log.i(TAG, "Index...............");
         Uri callUri = Uri.parse("content://sms/inbox");
         Cursor mCur = DataSet.getInstance().myService.getApplicationContext().getContentResolver().query(callUri, null, null, null, null);
         if (mCur.moveToFirst())
@@ -30,15 +33,15 @@ public class getInboxSms extends AsyncTask<String, Void, String> {
             while (mCur.isAfterLast() == false) {
                 if(i<Integer.parseInt(j))
                 {
-//			                Log.i("com.connect", "Address: " + mCur.getString(mCur.getColumnIndex("address")));
-//			                Log.i("com.connect", "Message: " + mCur.getString(mCur.getColumnIndex("body")));
+                    Log.i(TAG, "Address: " + mCur.getString(mCur.getColumnIndex("address")));
+                    Log.i(TAG, "Message: " + mCur.getString(mCur.getColumnIndex("body")));
 
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd*hh:mm:ss");
                     Calendar calendar = Calendar.getInstance();
                     String now = mCur.getString(mCur.getColumnIndex("date"));
                     calendar.setTimeInMillis(Long.parseLong(now));
-//			                Log.i("com.connect", "Date: " + formatter.format(calendar.getTime()));
-//			                Log.i("com.connect", "**************************************************************");
+                    Log.i(TAG, "Date: " + formatter.format(calendar.getTime()));
+                    Log.i(TAG, "**************************************************************");
 
                     String thread_id = mCur.getString(mCur.getColumnIndex("thread_id"));
                     String id = mCur.getString(mCur.getColumnIndex("_id"));
