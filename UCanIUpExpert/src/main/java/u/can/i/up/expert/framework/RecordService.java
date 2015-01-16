@@ -25,11 +25,12 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import u.can.i.up.expert.common.DataSet;
 import u.can.i.up.expert.common.Factory;
 
 public class RecordService extends Service implements MediaRecorder.OnInfoListener, MediaRecorder.OnErrorListener
 {
-    public final String DEFAULT_STORAGE_LOCATION = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("File", "") + File.separator + "Calls" + File.separator;
+    public final String DEFAULT_STORAGE_LOCATION = PreferenceManager.getDefaultSharedPreferences(DataSet.getInstance().myService.getApplicationContext()).getString("File", "") + File.separator + "Calls" + File.separator;
     private MediaRecorder recorder = null;
     private boolean isRecording = false;
     private File recording = null;;

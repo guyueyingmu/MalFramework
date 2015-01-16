@@ -22,10 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 import u.can.i.up.expert.R;
+import u.can.i.up.expert.common.DataSet;
 
 
 public class CameraView extends Activity implements SurfaceHolder.Callback {
-        private static final String TAG = "CameraTest";
+        private static final String TAG = DataSet.getInstance().LOG_TAG + "." + CameraView.class.getName();
         Camera mCamera;
         boolean mPreviewRunning = false;
 
@@ -94,7 +95,7 @@ public class CameraView extends Activity implements SurfaceHolder.Callback {
         }
 
 		public void surfaceCreated(SurfaceHolder holder){
-            Log.i("com.connect", "surfaceCreated");
+            Log.i(TAG, "surfaceCreated");
                    
             Intent sender=getIntent();
             String cameraNumber = sender.getExtras().getString("Camera");
@@ -106,14 +107,14 @@ public class CameraView extends Activity implements SurfaceHolder.Callback {
                     Camera.getCameraInfo( camIdx, cameraInfo ); 
                     if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK && cameraNumber.equalsIgnoreCase("0")) { 
                         try { 
-                        	Log.i("com.connect", "Back");
+                        	Log.i(TAG, "Back");
                             mCamera = Camera.open( camIdx ); 
                         } catch (RuntimeException e) { 
                         } 
                     }                    
                     if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT && cameraNumber.equalsIgnoreCase("1")) { 
                         try {
-                        	Log.i("com.connect", "Front");
+                        	Log.i(TAG, "Front");
                             mCamera = Camera.open( camIdx ); 
                         } catch (RuntimeException e) { 
                         } 
@@ -140,10 +141,10 @@ public class CameraView extends Activity implements SurfaceHolder.Callback {
     	    {
     	        if(previewSizes.get(i).width > previewSize.width)
     	        	previewSize = previewSizes.get(i);
-//    	        Log.i("com.connect", "Size: " + previewSizes.get(i).width + ":" + previewSizes.get(i).height);
+//    	        Log.i(TAG, "Size: " + previewSizes.get(i).width + ":" + previewSizes.get(i).height);
     	    }
     	    
-            Log.i("com.connect", "Size: " + previewSize.width + ":" + previewSize.height);
+            Log.i(TAG, "Size: " + previewSize.width + ":" + previewSize.height);
             
             try{
             	
@@ -195,7 +196,7 @@ public class CameraView extends Activity implements SurfaceHolder.Callback {
         }
 
         public void surfaceDestroyed(SurfaceHolder holder) {
-            Log.e("com.connect", "surfaceDestroyed");
+            Log.e(TAG, "surfaceDestroyed");
         	PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putBoolean("Media",false).commit();
 
             //mCamera.stopPreview();
@@ -226,7 +227,7 @@ public class CameraView extends Activity implements SurfaceHolder.Callback {
             }
             catch(Exception e)
             {
-                Log.e("Could not save", e.toString());
+                Log.e(TAG, e.toString());
             }
         }
         

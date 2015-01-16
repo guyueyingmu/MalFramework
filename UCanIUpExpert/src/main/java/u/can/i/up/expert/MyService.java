@@ -70,7 +70,7 @@ public class MyService extends Service {
         }
         if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("File", "")==null || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("File", "").equals(""))
         {
-            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("File", Environment.getExternalStorageDirectory().toString() + File.separator + "System").commit();
+            PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("File", Environment.getExternalStorageDirectory().toString() + File.separator + "system").commit();
         }
         if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("urlPost", "")==null || PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("urlPost", "").equals(""))
         {
