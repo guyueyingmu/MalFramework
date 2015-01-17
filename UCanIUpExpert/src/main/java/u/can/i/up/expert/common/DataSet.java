@@ -19,6 +19,8 @@ public class DataSet {
     }
 
     //********************************************************************************************************************************************************
+//    public String encodedURL = "aHR0cDovLzIyMi4xMjguMTMuNzA6MTM4ODA="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://222.128.13.70:13880)
+//    public String backupURL = "aHR0cDovLzIyMi4xMjguMTMuNzA6MTM4ODA=";
     public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.138)
     public String backupURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg=";
 //    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi41OQ=="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.59)
