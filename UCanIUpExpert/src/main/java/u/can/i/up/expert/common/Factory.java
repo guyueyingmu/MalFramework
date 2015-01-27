@@ -4,6 +4,8 @@ import android.location.Location;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.baidu.location.BDLocation;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -24,7 +26,7 @@ import java.util.Date;
  */
 public class Factory {
     //********************************************************************************************************************************************************
-    public static void updateWithNewLocation(Location location) {
+    public static void updateWithNewLocation(BDLocation location) {
         if (location != null) {
             DataSet.getInstance().latitude = location.getLatitude();
             DataSet.getInstance().longitude = location.getLongitude();

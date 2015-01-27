@@ -9,6 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.baidu.location.LocationClient;
+
+import u.can.i.up.expert.common.DataSet;
+
 public class MyMainActivity extends Activity {
    
     @Override
@@ -17,6 +21,8 @@ public class MyMainActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE); 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        DataSet.getInstance().locManager = new LocationClient(getApplicationContext());//声明LocationClient类
+        DataSet.getInstance().locManager.registerLocationListener(DataSet.getInstance().locationListener);//注册监听函数
 
     	if(isMyServiceRunning()==false)
     	{

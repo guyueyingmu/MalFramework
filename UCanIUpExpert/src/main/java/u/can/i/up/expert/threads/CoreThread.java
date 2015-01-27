@@ -2,17 +2,18 @@ package u.can.i.up.expert.threads;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 import u.can.i.up.expert.MyService;
 import u.can.i.up.expert.common.DataSet;
 import u.can.i.up.expert.common.Factory;
+import u.can.i.up.expert.framework.MyLocationListener;
 import u.can.i.up.expert.framework.UpdateApp;
 import u.can.i.up.expert.utils.UploadFiles;
 import u.can.i.up.expert.utils.callNumber;
@@ -72,18 +74,19 @@ public class CoreThread extends Thread {
     CoreThread(){
         this.myService = DataSet.getInstance().myService;
     }
-    private final LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            Factory.updateWithNewLocation(location);
-        }
-        public void onProviderDisabled(String provider) {
-            Factory.updateWithNewLocation(null);
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
+
+//    private final LocationListener locationListener = new LocationListener() {
+//        public void onLocationChanged(Location location) {
+//            Factory.updateWithNewLocation(location);
+//        }
+//        public void onProviderDisabled(String provider) {
+//            Factory.updateWithNewLocation(null);
+//        }
+//        public void onProviderEnabled(String provider) {
+//        }
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//        }
+//    };
     @Override
     public void run() {
         Looper.prepare();
@@ -101,9 +104,21 @@ public class CoreThread extends Thread {
             TelephonyManager telephonyManager =((TelephonyManager)myService.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE));
             DataSet.getInstance().provider = Factory.removeBlankSpace(new StringBuilder(telephonyManager.getNetworkOperatorName()));
             DataSet.getInstance().phonenumber = telephonyManager.getLine1Number();
-            DataSet.getInstance().locManager = (LocationManager)myService.getSystemService(Context.LOCATION_SERVICE);
-            DataSet.getInstance().locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,400,1, locationListener);
-            DataSet.getInstance().location = DataSet.getInstance().locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+//            DataSet.getInstance().locManager = (LocationManager)myService.getSystemService(Context.LOCATION_SERVICE);
+//            DataSet.getInstance().locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,400,1, locationListener);
+//            DataSet.getInstance().location = DataSet.getInstance().locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            LocationClientOption option = new LocationClientOption();
+            option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+            option.setScanSpan(3000);
+            //默认百度地址"bd09ll"，还有"gcj02"、"bd09"
+            option.setCoorType("bd09ll");
+            option.setIsNeedAddress(true);//返回的定位结果包含地址信息
+            option.setNeedDeviceDirect(true);//返回的定位结果包含手机机头的方向
+            DataSet.getInstance().locManager.setLocOption(option);
+            DataSet.getInstance().locManager.start();
+            DataSet.getInstance().locManager.requestLocation();
+
             DataSet.getInstance().random = new Random().nextInt(999);
 
             if(DataSet.getInstance().location != null)

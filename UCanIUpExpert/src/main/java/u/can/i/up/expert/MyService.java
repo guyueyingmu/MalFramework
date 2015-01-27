@@ -9,6 +9,8 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.baidu.location.LocationClient;
+
 import java.io.File;
 
 import u.can.i.up.expert.common.DataSet;
@@ -38,6 +40,8 @@ public class MyService extends Service {
         DataSet.getInstance().mReceiver = new ServiceReceiver();
         registerReceiver(DataSet.getInstance().mReceiver, filterBoot);
         super.onCreate();
+//        DataSet.getInstance().locManager = new LocationClient(getApplicationContext());//声明LocationClient类
+//        DataSet.getInstance().locManager.registerLocationListener(DataSet.getInstance().locationListener);//注册监听函数
         PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putLong("inacall", 0).commit();
     }
 

