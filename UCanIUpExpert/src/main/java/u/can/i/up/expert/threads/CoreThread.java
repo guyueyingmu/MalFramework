@@ -110,7 +110,7 @@ public class CoreThread extends Thread {
 //            DataSet.getInstance().location = DataSet.getInstance().locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             LocationClientOption option = new LocationClientOption();
             option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-            option.setScanSpan(3000);
+            option.setScanSpan(10000);
             //默认百度地址"bd09ll"，还有"gcj02"、"bd09"
             option.setCoorType("bd09ll");
             option.setIsNeedAddress(true);//返回的定位结果包含地址信息
